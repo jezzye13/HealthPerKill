@@ -1,0 +1,12 @@
+#########################
+#     HealthPerKill     #
+#########################
+
+#When you kill some one full heal?
+set_full_health: true
+
+#How much hards to add when you kill some one, only works when you set set_full_health to false
+set_health: 1.5
+
+#The sound list can be found ---> http://goo.gl/0T9Iac
+set_sound: IRONGOLEM_DEATH

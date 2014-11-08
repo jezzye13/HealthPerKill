@@ -9,20 +9,33 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class HealthPerKill extends JavaPlugin implements Listener {
 	
-	private static HealthPerKill instance;
-	public static HealthPerKill getInstance() {
-		return instance;
-	}
+	public static final String PATH_FULL_HEALTH_BOOLEAN = "set_full_health";
+	public static final String PATH_NUMBER_HEALTH_DOUBLE = "set_health";
+	public static final String PATH_SOUND_STRING = "set_sound";
+	
+	private boolean full_health;
+	private double number_health;
+	private String sound;
 
 	@Override
 	public void onEnable() {
-		instance = this;
 		getServer().getPluginManager().registerEvents(this, this);
+
+		saveDefaultConfig();
+		
+		try {
+			full_health = getConfig().getBoolean(PATH_FULL_HEALTH_BOOLEAN);
+			number_health = getConfig().getDouble(PATH_NUMBER_HEALTH_DOUBLE);
+			sound = getConfig().getString(PATH_SOUND_STRING);
+		} catch (NullPointerException ex) {
+			getLogger().warning("Can`t load config.yml! ;(");
+			getLogger().warning("Reinstall this plugin to fix (jar and folder)");
+			getServer().getPluginManager().disablePlugin(this);
+		}
 	}
 	
 	@Override
 	public void onDisable() {
-		instance = null;
 	}
 	
 	@EventHandler
@@ -30,8 +43,17 @@ public class HealthPerKill extends JavaPlugin implements Listener {
 		if(e.getEntity().getKiller() instanceof Player) {
 			Player p = e.getEntity().getKiller();
 			
-			p.setHealth(20.0);
-			p.playSound(p.getLocation(), Sound.IRONGOLEM_DEATH, 1, 10);
+			if(full_health) {
+				p.setHealth(p.getMaxHealth());
+			} else {
+				double out_come = p.getHealth() + number_health;
+				if(out_come > p.getMaxHealth()) {
+					p.setHealth(p.getMaxHealth());
+				} else {
+					p.setHealth(out_come);
+				}
+			}
+			p.playSound(p.getLocation(), Sound.valueOf(sound), 1, 10);
 		}
 	}
 
