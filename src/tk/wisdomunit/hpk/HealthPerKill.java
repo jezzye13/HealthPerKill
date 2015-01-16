@@ -11,6 +11,7 @@ public class HealthPerKill extends JavaPlugin implements Listener {
 
 	public static final String PATH_NUMBER_HEALTH_DOUBLE = "set_health";
 	public static final String PATH_SOUND_STRING = "set_sound";
+	public static final String PERMISSION_USE = "hpk.use";
 
 	private double number_health;
 	private String sound;
@@ -37,14 +38,16 @@ public class HealthPerKill extends JavaPlugin implements Listener {
 		if (e.getEntity().getKiller() instanceof Player) {
 			Player p = e.getEntity().getKiller();
 
-			double out_come = p.getHealth() + number_health;
-			if (out_come > p.getMaxHealth()) {
-				p.setHealth(p.getMaxHealth());
-			} else {
-				p.setHealth(out_come);
-			}
+			if (p.hasPermission(PERMISSION_USE)) {
+				double out_come = p.getHealth() + number_health;
+				if (out_come > p.getMaxHealth()) {
+					p.setHealth(p.getMaxHealth());
+				} else {
+					p.setHealth(out_come);
+				}
 
-			p.playSound(p.getLocation(), Sound.valueOf(sound), 1, 10);
+				p.playSound(p.getLocation(), Sound.valueOf(sound), 1, 10);
+			}
 		}
 	}
 
