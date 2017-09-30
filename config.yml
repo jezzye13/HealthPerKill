@@ -2,8 +2,8 @@
 #     HealthPerKill     #
 #########################
 
-#How much hearts to add when you kill some one
-set_health: 2.0
+#How much half hearts to add when you kill some one
+set_health: 4.0
 
-#The sound list can be found ---> http://goo.gl/0T9Iac
-set_sound: IRONGOLEM_DEATH
+#The sound list can be found ---> https://goo.gl/tpxSTU
+set_sound: ENTITY_IRONGOLEM_DEATH

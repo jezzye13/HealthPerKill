@@ -1,6 +1,7 @@
 package tk.wisdomunit.hpk;
 
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,8 +41,9 @@ public class HealthPerKill extends JavaPlugin implements Listener {
 
 			if (p.hasPermission(PERMISSION_USE)) {
 				double out_come = p.getHealth() + number_health;
-				if (out_come > p.getMaxHealth()) {
-					p.setHealth(p.getMaxHealth());
+				double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+				if (out_come > maxHealth) {
+					p.setHealth(maxHealth);
 				} else {
 					p.setHealth(out_come);
 				}
