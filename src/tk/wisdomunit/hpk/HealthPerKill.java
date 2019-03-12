@@ -39,16 +39,21 @@ public class HealthPerKill extends JavaPlugin implements Listener {
 		if (e.getEntity().getKiller() instanceof Player) {
 			Player p = e.getEntity().getKiller();
 
-			if (p.hasPermission(PERMISSION_USE)) {
-				double out_come = p.getHealth() + number_health;
-				double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-				if (out_come > maxHealth) {
-					p.setHealth(maxHealth);
-				} else {
-					p.setHealth(out_come);
-				}
+			if (!p.getUniqueId().equals(e.getEntity().getUniqueId())) {
+			
+				if(p.hasPermission(PERMISSION_USE)) {
+					
+					double out_come = p.getHealth() + number_health;
+					double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+					if (out_come > maxHealth) {
+						p.setHealth(maxHealth);
+					} else {
+						p.setHealth(out_come);
+					}
 
-				p.playSound(p.getLocation(), Sound.valueOf(sound), 1, 10);
+					p.playSound(p.getLocation(), Sound.valueOf(sound), 1, 10);
+					
+				}
 			}
 		}
 	}
